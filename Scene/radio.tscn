@@ -370,8 +370,8 @@ region_enabled = true
 region_rect = Rect2(0, 0, 1172, 350)
 
 [node name="Sprite2D2" type="Sprite2D" parent="Bg"]
-position = Vector2(640.5, 398.5)
-scale = Vector2(1.0913, 0.858696)
+position = Vector2(641, 398.5)
+scale = Vector2(1.09727, 0.858696)
 texture = ExtResource("2_2uorr")
 region_enabled = true
 region_rect = Rect2(0, 390, 1172, 92)

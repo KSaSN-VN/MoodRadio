@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://dyfx23nd1jwa4"]
+[gd_scene load_steps=15 format=3 uid="uid://dyfx23nd1jwa4"]
 
 [ext_resource type="Script" uid="uid://mfktmwr8yw55" path="res://Script/character.gd" id="1_tgux0"]
 [ext_resource type="Texture2D" uid="uid://da7o4hgtlghj3" path="res://Asset/Character/NPC face emoji.png" id="2_46cb6"]
 [ext_resource type="Texture2D" uid="uid://b4dtoq16t7bx8" path="res://Asset/Character/Text_box.png" id="3_ep1am"]
 [ext_resource type="PackedScene" uid="uid://dkx3x8eg7ptvk" path="res://Scene/radio.tscn" id="4_46cb6"]
+[ext_resource type="AudioStream" uid="uid://bl78bqj8e52f5" path="res://Sound/chill-chords-143504 (online-audio-converter.com).ogg" id="5_ep1am"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2uorr"]
 atlas = ExtResource("2_46cb6")
@@ -137,5 +138,10 @@ text = "Emotion:
 Happy 100%"
 
 [node name="Radio" parent="." instance=ExtResource("4_46cb6")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_ep1am")
+autoplay = true
+parameters/looping = true
 
 [connection signal="submit_emotion" from="Radio" to="." method="_on_radio_submit_emotion"]
