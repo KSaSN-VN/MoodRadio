@@ -1,0 +1,141 @@
+[gd_scene load_steps=14 format=3 uid="uid://dyfx23nd1jwa4"]
+
+[ext_resource type="Script" uid="uid://mfktmwr8yw55" path="res://Script/character.gd" id="1_tgux0"]
+[ext_resource type="Texture2D" uid="uid://da7o4hgtlghj3" path="res://Asset/Character/NPC face emoji.png" id="2_46cb6"]
+[ext_resource type="Texture2D" uid="uid://b4dtoq16t7bx8" path="res://Asset/Character/Text_box.png" id="3_ep1am"]
+[ext_resource type="PackedScene" uid="uid://dkx3x8eg7ptvk" path="res://Scene/radio.tscn" id="4_46cb6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uorr"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(0, 607, 446, 607)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb4of"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(446, 607, 446, 607)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jy321"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(0, 0, 446, 607)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouecs"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(1338, 0, 446, 607)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4hxyj"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(446, 0, 446, 607)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wdtb"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(892, 0, 446, 607)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqmyq"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(892, 607, 446, 607)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6yl7"]
+atlas = ExtResource("2_46cb6")
+region = Rect2(1338, 607, 446, 607)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2ht62"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uorr")
+}],
+"loop": true,
+"name": &"Almost_angry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mb4of")
+}],
+"loop": true,
+"name": &"Angry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jy321")
+}],
+"loop": true,
+"name": &"Calm",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouecs")
+}],
+"loop": true,
+"name": &"Cry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4hxyj")
+}],
+"loop": true,
+"name": &"Happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wdtb")
+}],
+"loop": true,
+"name": &"Sad",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqmyq")
+}],
+"loop": true,
+"name": &"Scare",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6yl7")
+}],
+"loop": true,
+"name": &"Super_scare",
+"speed": 5.0
+}]
+
+[node name="Character" type="Node2D"]
+script = ExtResource("1_tgux0")
+
+[node name="Bg_2" type="Sprite2D" parent="."]
+position = Vector2(636.5, 170.25)
+scale = Vector2(20.9344, 4.805)
+texture = ExtResource("2_46cb6")
+region_enabled = true
+region_rect = Rect2(887, 547, 61, 100)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(614, 182.803)
+scale = Vector2(0.625561, 0.608556)
+sprite_frames = SubResource("SpriteFrames_2ht62")
+animation = &"Scare"
+
+[node name="Text_box" type="Node" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Text_box"]
+position = Vector2(988, 130)
+texture = ExtResource("3_ep1am")
+
+[node name="Label" type="Label" parent="Text_box"]
+offset_left = 851.0
+offset_top = 65.0
+offset_right = 1120.0
+offset_bottom = 194.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 45
+text = "Emotion:
+Happy 100%"
+
+[node name="Radio" parent="." instance=ExtResource("4_46cb6")]
+
+[connection signal="submit_emotion" from="Radio" to="." method="_on_radio_submit_emotion"]

@@ -1,0 +1,67 @@
+[gd_scene load_steps=6 format=3 uid="uid://cx30lhocowkj4"]
+
+[ext_resource type="Texture2D" uid="uid://da7o4hgtlghj3" path="res://Asset/Character/NPC face emoji.png" id="1_b23qx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b23qx"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eas8t"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u2k45"]
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="Theme" id="Theme_eas8t"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/font_sizes/font_size = 85
+Button/styles/hover = SubResource("StyleBoxFlat_b23qx")
+Button/styles/normal = SubResource("StyleBoxFlat_eas8t")
+Button/styles/pressed = SubResource("StyleBoxFlat_u2k45")
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(643.25, 376.5)
+scale = Vector2(22.8051, 9.36667)
+texture = ExtResource("1_b23qx")
+region_enabled = true
+region_rect = Rect2(902, 517, 59, 90)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 342.0
+offset_top = 26.0
+offset_right = 918.0
+offset_bottom = 303.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 100
+text = "Mood Radio
+- by Ksasn- "
+
+[node name="Play_button" type="Button" parent="."]
+offset_left = 311.0
+offset_top = 340.0
+offset_right = 923.0
+offset_bottom = 473.0
+theme = SubResource("Theme_eas8t")
+text = "Play"
+
+[node name="Play_button2" type="Button" parent="."]
+offset_left = 311.0
+offset_top = 514.0
+offset_right = 923.0
+offset_bottom = 647.0
+theme = SubResource("Theme_eas8t")
+text = "Exit"

@@ -1,0 +1,458 @@
+[gd_scene load_steps=45 format=3 uid="uid://dkx3x8eg7ptvk"]
+
+[ext_resource type="Texture2D" uid="uid://d208h0kr11mj1" path="res://Asset/Character/Button_emotions.png" id="2_2uorr"]
+[ext_resource type="Script" uid="uid://cay4j18qgc0vk" path="res://Script/happy_button.gd" id="3_mb4of"]
+[ext_resource type="Script" uid="uid://cgar3ouemduxa" path="res://Script/sad_button.gd" id="4_jy321"]
+[ext_resource type="Script" uid="uid://b64jcx6ynh0hx" path="res://Script/angry_button.gd" id="5_ouecs"]
+[ext_resource type="Script" uid="uid://rk7m7awlgulu" path="res://Script/fear_button.gd" id="6_4hxyj"]
+[ext_resource type="Script" uid="uid://ckscm6nup6guu" path="res://Script/ok_button.gd" id="7_7wdtb"]
+[ext_resource type="Texture2D" uid="uid://kd8lxjadyevs" path="res://Asset/Character/Progress handle.png" id="8_mqmyq"]
+[ext_resource type="Texture2D" uid="uid://clwy00kwpneg0" path="res://Asset/Character/Progress handle holding.png" id="9_f6yl7"]
+[ext_resource type="Texture2D" uid="uid://ceoy0ptfm3awb" path="res://Asset/Character/Progres bar under.png" id="10_uk8b0"]
+[ext_resource type="Texture2D" uid="uid://ciio5juyjevup" path="res://Asset/Character/Progres bar.png" id="11_u28g2"]
+
+[sub_resource type="GDScript" id="GDScript_rr8kx"]
+script/source = "extends Node2D
+
+@onready var happy_button: Area2D = $Button/Happy_button
+@onready var sad_button: Area2D = $Button/Sad_button
+@onready var angry_button: Area2D = $Button/Angry_button
+@onready var fear_button: Area2D = $Button/Fear_button
+@onready var ok_button: Area2D = $Button/Ok_button
+var current_emotion
+signal submit_emotion
+@onready var h_slider: HSlider = $Range_slider/HSlider
+var mood_value = 0.0
+var current_emotion_percent = \"\"
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	happy_button.connect(\"happy_button_pressed\", _on_happy_button_pressed)
+	sad_button.connect(\"sad_button_pressed\", _on_sad_button_pressed)
+	angry_button.connect(\"angry_button_pressed\", _on_angry_button_pressed)
+	fear_button.connect(\"fear_button_pressed\", _on_fear_button_pressed)
+	ok_button.connect(\"ok_button_pressed\", _on_ok_button_pressed)
+	h_slider.value_changed.connect(_on_slider_changed)
+	h_slider.step = 1.0
+	
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	pass
+	
+func _on_happy_button_pressed():
+	current_emotion = \"Happy\"
+	h_slider.value = 0.0
+	
+func _on_sad_button_pressed():
+	current_emotion = \"Sad\"
+	h_slider.value = 0.0
+	
+func _on_angry_button_pressed():
+	current_emotion = \"Angry\"
+	h_slider.value = 0.0
+	
+func _on_fear_button_pressed():
+	current_emotion = \"Fear\"
+	h_slider.value = 0.0
+	
+func _on_ok_button_pressed():
+	submit_emotion.emit()
+	h_slider.value = 0.0
+	
+func _on_slider_changed(v):
+	mood_value = v / 1.0
+	set_emotion()
+	
+func set_emotion():
+	if mood_value > 50 and current_emotion == \"Happy\":
+		current_emotion_percent = \"Happy\"
+	elif mood_value < 50 and current_emotion == \"Happy\":
+		current_emotion_percent = \"Calm\"
+	elif mood_value > 50 and current_emotion == \"Sad\":
+		current_emotion_percent = \"Cry\"
+	elif mood_value < 50 and mood_value > 0 and current_emotion == \"Sad\":
+		current_emotion_percent = \"Sad\"
+	elif mood_value > 50 and current_emotion == \"Angry\":
+		current_emotion_percent = \"Angry\"
+	elif mood_value < 50 and mood_value > 0 and current_emotion == \"Angry\":
+		current_emotion_percent = \"Almost_angry\"
+	elif mood_value > 50 and current_emotion == \"Fear\":
+		current_emotion_percent = \"Super_scare\"
+	elif mood_value < 50 and mood_value > 0 and current_emotion == \"Fear\":
+		current_emotion_percent = \"Scare\"
+	elif mood_value == 0:
+		current_emotion_percent = \"Calm\"
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixg0o"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(6, 880, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oki6o"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(6, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fwyy0"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(6, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fvwx"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(6, 1014, 247, 134)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m4amx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ixg0o")
+}],
+"loop": true,
+"name": &"Hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oki6o")
+}],
+"loop": true,
+"name": &"Normal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwyy0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fvwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fwyy0")
+}],
+"loop": false,
+"name": &"Pressed",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m4amx"]
+size = Vector2(147, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5bbvs"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(253, 880, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_km1cy"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(253, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3uh17"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(253, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8dr2v"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(253, 1014, 247, 134)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ixg0o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5bbvs")
+}],
+"loop": true,
+"name": &"Hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_km1cy")
+}],
+"loop": true,
+"name": &"Normal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uh17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8dr2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3uh17")
+}],
+"loop": false,
+"name": &"Pressed",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwyy0"]
+size = Vector2(147, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssx42"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(500, 880, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glp2x"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(500, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhxsl"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(500, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kfeqg"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(500, 1014, 247, 134)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0fvwx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssx42")
+}],
+"loop": true,
+"name": &"Hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_glp2x")
+}],
+"loop": true,
+"name": &"Normal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhxsl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kfeqg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhxsl")
+}],
+"loop": false,
+"name": &"Pressed",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bbvs"]
+size = Vector2(146, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75tgc"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(747, 880, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4amx"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(747, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dstbs"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(747, 746, 247, 134)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1noks"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(747, 1014, 247, 134)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_km1cy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75tgc")
+}],
+"loop": true,
+"name": &"Hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4amx")
+}],
+"loop": true,
+"name": &"Normal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dstbs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1noks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dstbs")
+}],
+"loop": false,
+"name": &"Pressed",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ixg0o"]
+size = Vector2(147, 74)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_emcot"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(994, 885, 178, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7swd"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(994, 752, 178, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alxg0"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(994, 752, 178, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tr41w"]
+atlas = ExtResource("2_2uorr")
+region = Rect2(994, 1018, 178, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u7swd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emcot")
+}],
+"loop": true,
+"name": &"Hover",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7swd")
+}],
+"loop": true,
+"name": &"Normal",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alxg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tr41w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alxg0")
+}],
+"loop": false,
+"name": &"Pressed",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wwani"]
+size = Vector2(102, 72.5)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8dr2v"]
+texture = ExtResource("10_uk8b0")
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ssx42"]
+texture = ExtResource("11_u28g2")
+texture_margin_top = 9.0
+texture_margin_bottom = 9.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qhxsl"]
+texture = ExtResource("11_u28g2")
+
+[node name="Radio" type="Node2D"]
+script = SubResource("GDScript_rr8kx")
+
+[node name="Bg" type="Node" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Bg"]
+position = Vector2(640, 579)
+scale = Vector2(1.09215, 0.805714)
+texture = ExtResource("2_2uorr")
+region_enabled = true
+region_rect = Rect2(0, 0, 1172, 350)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Bg"]
+position = Vector2(640.5, 398.5)
+scale = Vector2(1.0913, 0.858696)
+texture = ExtResource("2_2uorr")
+region_enabled = true
+region_rect = Rect2(0, 390, 1172, 92)
+
+[node name="Button" type="Node" parent="."]
+
+[node name="Happy_button" type="Area2D" parent="Button"]
+script = ExtResource("3_mb4of")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Button/Happy_button"]
+position = Vector2(161, 514)
+scale = Vector2(0.645749, 0.636364)
+sprite_frames = SubResource("SpriteFrames_m4amx")
+animation = &"Hover"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button/Happy_button"]
+position = Vector2(160.5, 509)
+shape = SubResource("RectangleShape2D_m4amx")
+
+[node name="Sad_button" type="Area2D" parent="Button"]
+script = ExtResource("4_jy321")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Button/Sad_button"]
+position = Vector2(365, 514)
+scale = Vector2(0.646, 0.636)
+sprite_frames = SubResource("SpriteFrames_ixg0o")
+animation = &"Pressed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button/Sad_button"]
+position = Vector2(364.5, 509)
+shape = SubResource("RectangleShape2D_fwyy0")
+
+[node name="Angry_button" type="Area2D" parent="Button"]
+script = ExtResource("5_ouecs")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Button/Angry_button"]
+position = Vector2(569, 514)
+scale = Vector2(0.646, 0.636)
+sprite_frames = SubResource("SpriteFrames_0fvwx")
+animation = &"Pressed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button/Angry_button"]
+position = Vector2(568, 508.5)
+shape = SubResource("RectangleShape2D_5bbvs")
+
+[node name="Fear_button" type="Area2D" parent="Button"]
+script = ExtResource("6_4hxyj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Button/Fear_button"]
+position = Vector2(773, 514)
+scale = Vector2(0.646, 0.636)
+sprite_frames = SubResource("SpriteFrames_km1cy")
+animation = &"Pressed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button/Fear_button"]
+position = Vector2(772.5, 509)
+shape = SubResource("RectangleShape2D_ixg0o")
+
+[node name="Ok_button" type="Area2D" parent="Button"]
+script = ExtResource("7_7wdtb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Button/Ok_button"]
+texture_filter = 1
+position = Vector2(1103, 514)
+scale = Vector2(0.646, 0.636)
+sprite_frames = SubResource("SpriteFrames_u7swd")
+animation = &"Pressed"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button/Ok_button"]
+position = Vector2(1102, 510.25)
+shape = SubResource("RectangleShape2D_wwani")
+
+[node name="Range_slider" type="Node" parent="."]
+
+[node name="HSlider" type="HSlider" parent="Range_slider"]
+offset_left = 135.0
+offset_top = 604.0
+offset_right = 1135.0
+offset_bottom = 679.0
+theme_override_icons/grabber = ExtResource("8_mqmyq")
+theme_override_icons/grabber_highlight = ExtResource("9_f6yl7")
+theme_override_styles/slider = SubResource("StyleBoxTexture_8dr2v")
+theme_override_styles/grabber_area = SubResource("StyleBoxTexture_ssx42")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxTexture_qhxsl")
